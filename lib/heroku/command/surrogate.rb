@@ -40,7 +40,7 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
     if args.empty?
       error("Usage: heroku surrogate [OVERRIDE1=VALUE1 ...] COMMAND\nMust specify COMMAND")
     elsif release['pstable'].has_key?(args.first)
-      command << release['pstable'][args.pop] << ' '
+      command << release['pstable'][args.shift] << ' '
     end
 
     require 'shellwords'
