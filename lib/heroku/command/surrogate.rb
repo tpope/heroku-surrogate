@@ -46,6 +46,10 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
     require 'shellwords'
     command << args.map { |a| Shellwords.escape(a) }.join(' ')
 
+    if command =~ TEST_SUITE_CHECK
+      error("Refusing to run the test suite against live data")
+    end
+
     if options[:checkout]
       if git("rev-parse --quiet --verify #{release['commit']}").empty?
         git("fetch #{api.get_app(app).body['git_url']}")
@@ -56,5 +60,14 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
     ENV.update(vars)
     exec(command)
   end
+
+  TEST_SUITE_CHECK = %r{
+    \A\s*
+    (?:bundle\s+exec\s+|bin/)?
+    (?:
+      rake\s*(?:\z|.*\s(?:test|spec|cucumber|features))
+      |testrb\b|rspec\b|cucumber\b
+    )
+  }x
 
 end
