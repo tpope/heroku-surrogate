@@ -2,7 +2,7 @@
 
 The `heroku surrogate` command pulls down the environment variables for a
 Heroku application, merges them into the local environment, and spawns a
-process.  Behold!
+process.  Here's a Rails specific example:
 
     heroku surrogate rake db:migrate:up VERSION=20130228193803
 
