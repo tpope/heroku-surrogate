@@ -8,8 +8,9 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
   # --release RELEASE # use environment at time of RELEASE
   # --checkout        # git checkout the release commit first
   #
-  # All environment variables from the application config except for PATH and
-  # GEM_PATH will be merged into the current environment before execution.
+  # All environment variables from the application config except for those
+  # ending in PATH will be merged into the current environment before
+  # execution.
   #
   #Examples:
   #
@@ -28,7 +29,7 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
     vars = release['env']
 
     vars.delete_if do |k, v|
-      %w(PATH GEM_PATH).include?(k)
+      k =~ /PATH$/
     end
 
     while args.any? && args.first.include?('=')
