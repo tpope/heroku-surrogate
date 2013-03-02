@@ -26,7 +26,9 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
       release = api.get_releases(app).body.last
     end
 
-    vars = release['env']
+    vars = release['env'].inject({}) do |m, (k, v)|
+      m.update(k => v.to_s)
+    end
 
     vars.delete_if do |k, v|
       k =~ /PATH$/
