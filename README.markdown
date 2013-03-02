@@ -32,4 +32,4 @@ before executing.
 
 ## Installation
 
-    $ heroku plugins:install https://github.com/tpope/heroku-surrogate.git
+    heroku plugins:install https://github.com/tpope/heroku-surrogate.git
