@@ -28,7 +28,7 @@ you'd rather be running production code as well, pass `--checkout`, and the
 appropriate commit (respecting `--release` if given) will be checked out
 before executing.
 
-    heroku surrogate --checkout --release=v456 $SHELL
+    heroku surrogate --checkout foreman start
 
 ## Installation
 
