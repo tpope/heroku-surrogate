@@ -1,7 +1,7 @@
 # run commands locally using the remote environment
 class Heroku::Command::Surrogate < Heroku::Command::Base
 
-  # surrogate [OVERRIDE1=VALUE1 ...] COMMAND
+  # surrogate [OVERRIDE1=VALUE1 ...] COMMAND [...]
   #
   # run COMMAND locally using environment variables from the app config
   #
@@ -46,8 +46,12 @@ class Heroku::Command::Surrogate < Heroku::Command::Base
       command << release['pstable'][args.shift] << ' '
     end
 
-    require 'shellwords'
-    command << args.map { |a| Shellwords.escape(a) }.join(' ')
+    if args.size == 1 && command.empty?
+      command << args.first
+    else
+      require 'shellwords'
+      command << args.map { |a| Shellwords.escape(a) }.join(' ')
+    end
 
     if command =~ TEST_SUITE_CHECK
       error("Refusing to run the test suite against live data")
